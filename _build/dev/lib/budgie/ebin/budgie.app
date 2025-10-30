@@ -1,5 +1,5 @@
 {application,budgie,
-             [{config_mtime,1760411391},
+             [{config_mtime,1761789108},
               {compile_env,[{budgie,['Elixir.BudgieWeb.Gettext'],error},
                             {budgie,[dev_routes],{ok,true}}]},
               {optional_applications,[]},
