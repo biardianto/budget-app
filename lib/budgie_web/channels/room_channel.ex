@@ -1,9 +1,18 @@
 defmodule BudgieWeb.RoomChannel do
   use Phoenix.Channel
-
+  require Logger
 
   def join("room:lobby", _payload, socket) do
     {:ok, socket}
+  end
+
+  def join("room:" <> _private_room_id, _payload, _socket) do
+    {:error, %{reason: "unauthorized"}}
+  end
+
+  # Handle "shout" events and reply directly to the client
+  def handle_in("shout", _payload, socket) do
+    {:reply, {:ok, %{response: "Server received your shout"}}, socket}
   end
 
   def handle_in("new_msg", %{"body" => body}, socket) do
