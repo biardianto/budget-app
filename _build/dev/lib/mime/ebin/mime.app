@@ -1,5 +1,5 @@
 {application,mime,
-             [{config_mtime,1751956423},
+             [{config_mtime,1762748862},
               {compile_env,[{mime,[extensions],error},
                             {mime,[suffixes],error},
                             {mime,[types],error}]},
@@ -8,5 +8,5 @@
               {description,"A MIME type module for Elixir"},
               {modules,['Elixir.MIME']},
               {registered,[]},
-              {vsn,"2.0.6"},
+              {vsn,"2.0.7"},
               {env,[]}]}.

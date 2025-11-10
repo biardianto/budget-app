@@ -8,7 +8,7 @@ defmodule Phoenix.MixProject do
     end
   end
 
-  @version "1.7.19"
+  @version "1.7.21"
   @scm_url "https://github.com/phoenixframework/phoenix"
 
   # If the elixir requirement is updated, we need to make the installer
@@ -93,10 +93,9 @@ defmodule Phoenix.MixProject do
       {:gettext, "~> 0.26", only: :docs},
       {:telemetry_poller, "~> 1.0", only: :docs},
       {:telemetry_metrics, "~> 1.0", only: :docs},
-      {:makeup_eex, ">= 0.1.1", only: :docs},
-      {:makeup_elixir, "~> 0.16", only: :docs},
-      {:makeup_diff, "~> 0.1", only: :docs},
-
+      {:makeup_elixir, "~> 1.0.1 or ~> 1.1", only: :docs},
+      {:makeup_eex, "~> 2.0", only: :docs},
+      {:makeup_syntect, "~> 0.1.0", only: :docs},
       # Test dependencies
       {:phoenix_html, "~> 4.0", only: [:docs, :test]},
       {:phx_new, path: "./installer", only: [:docs, :test]},

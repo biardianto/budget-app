@@ -68,7 +68,9 @@ defmodule Budgie.MixProject do
       {:bandit, "~> 1.5"},
       {:ex_machina, "~> 2.8.0", only: :test},
       {:excoveralls, "~> 0.18", only: :test},
-      {:nanoid, "~> 2.1.0"}
+      {:nanoid, "~> 2.1.0"},
+      {:phoenix_pubsub_redis, "~> 3.0.1"},
+      {:redix, "~> 1.5.0"}
     ]
   end
 

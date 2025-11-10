@@ -61,6 +61,18 @@ defmodule Bandit.HTTP2.Handler do
     )
   end
 
+  def handle_call({:peer_data, _stream_id}, _from, {socket, state}) do
+    {:reply, Bandit.SocketHelpers.peer_data(socket), {socket, state}, socket.read_timeout}
+  end
+
+  def handle_call({:sock_data, _stream_id}, _from, {socket, state}) do
+    {:reply, Bandit.SocketHelpers.sock_data(socket), {socket, state}, socket.read_timeout}
+  end
+
+  def handle_call({:ssl_data, _stream_id}, _from, {socket, state}) do
+    {:reply, Bandit.SocketHelpers.ssl_data(socket), {socket, state}, socket.read_timeout}
+  end
+
   def handle_call({{:send_data, data, end_stream}, stream_id}, from, {socket, state}) do
     # In 'normal' cases where there is sufficient space in the send windows for this message to be
     # sent, Connection will call `unblock` synchronously in the `Connection.send_data` call below.
@@ -148,12 +160,12 @@ defmodule Bandit.HTTP2.Handler do
 
   defp do_rescue_error(error, stacktrace, socket, state) do
     _ =
-      if state.connection do
+      if state[:connection] do
         Bandit.HTTP2.Connection.close_connection(
           error.error_code,
           error.message,
           socket,
-          state.connection
+          state[:connection]
         )
       end
 

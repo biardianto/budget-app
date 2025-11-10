@@ -5,7 +5,7 @@ defmodule Plug.RequestId do
   The generated request ID will be in the format:
 
   ```
-  uq8hs30oafhj5vve8ji5pmp7mtopc08f
+  GEBMr97eLMHtGWsAAAVj
   ```
 
   If a request ID already exists in a configured HTTP request header (see options below),
@@ -14,10 +14,10 @@ defmodule Plug.RequestId do
 
   The request ID is added to the `Logger` metadata as `:request_id`, and to the
   response as the configured HTTP response header (see options below). To see the
-  request ID in your log output, configure your logger backends to include the `:request_id`
+  request ID in your log output, configure your logger formatter to include the `:request_id`
   metadata. For example:
 
-      config :logger, :console, metadata: [:request_id]
+      config :logger, :default_formatter, metadata: [:request_id]
 
   We recommend to include this metadata configuration in your production
   configuration file.
@@ -47,6 +47,13 @@ defmodule Plug.RequestId do
 
           plug Plug.RequestId, assign_as: :plug_request_id
 
+    * `:logger_metadata_key` - The name of the key that will be used to store the
+      discovered or generated request id in `Logger` metadata. If not provided,
+      the request ID Logger metadata will be stored as `:request_id`. *Available
+      since v1.18.0*.
+
+          plug Plug.RequestId, logger_metadata_key: :my_request_id
+
   """
 
   require Logger
@@ -57,15 +64,16 @@ defmodule Plug.RequestId do
   def init(opts) do
     {
       Keyword.get(opts, :http_header, "x-request-id"),
-      Keyword.get(opts, :assign_as)
+      Keyword.get(opts, :assign_as),
+      Keyword.get(opts, :logger_metadata_key, :request_id)
     }
   end
 
   @impl true
-  def call(conn, {header, assign_as}) do
+  def call(conn, {header, assign_as, logger_metadata_key}) do
     request_id = get_request_id(conn, header)
 
-    Logger.metadata(request_id: request_id)
+    Logger.metadata([{logger_metadata_key, request_id}])
     conn = if assign_as, do: Conn.assign(conn, assign_as, request_id), else: conn
 
     Conn.put_resp_header(conn, header, request_id)

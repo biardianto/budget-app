@@ -1,5 +1,5 @@
 {application,phoenix_pubsub,
-             [{config_mtime,1751956423},
+             [{config_mtime,1762748862},
               {optional_applications,[]},
               {applications,[kernel,stdlib,elixir,logger,crypto]},
               {description,"Distributed PubSub and Presence platform"},
@@ -15,7 +15,8 @@
                         'Elixir.Phoenix.Tracker.DeltaGeneration',
                         'Elixir.Phoenix.Tracker.Replica',
                         'Elixir.Phoenix.Tracker.Shard',
+                        'Elixir.Phoenix.Tracker.ShutdownHandler',
                         'Elixir.Phoenix.Tracker.State']},
               {registered,[]},
-              {vsn,"2.1.3"},
+              {vsn,"2.2.0"},
               {mod,{'Elixir.Phoenix.PubSub.Application',[]}}]}.

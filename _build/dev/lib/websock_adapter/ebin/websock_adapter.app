@@ -1,5 +1,5 @@
 {application,websock_adapter,
-             [{config_mtime,1751956423},
+             [{config_mtime,1762748863},
               {optional_applications,[bandit,plug_cowboy]},
               {applications,[kernel,stdlib,elixir,websock,plug,bandit,
                              plug_cowboy]},
@@ -8,4 +8,4 @@
                         'Elixir.WebSockAdapter.UpgradeError',
                         'Elixir.WebSockAdapter.UpgradeValidation']},
               {registered,[]},
-              {vsn,"0.5.8"}]}.
+              {vsn,"0.5.9"}]}.

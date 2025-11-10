@@ -7,6 +7,7 @@ defmodule Bandit.Adapter do
   # concerns, which are managed by the underlying `Bandit.HTTPTransport` implementation
 
   @behaviour Plug.Conn.Adapter
+  @already_sent {:plug_conn, :sent}
 
   defstruct transport: nil,
             owner_pid: nil,
@@ -112,6 +113,7 @@ defmodule Bandit.Adapter do
       |> send_headers(status, headers, :raw)
       |> send_data(encoded_body, true)
 
+    send(adapter.owner_pid, @already_sent)
     {:ok, nil, adapter}
   end
 
@@ -144,6 +146,7 @@ defmodule Bandit.Adapter do
         |> Map.put(:resp_start_time, start_time)
         |> Map.put(:resp_end_time, Bandit.Telemetry.monotonic_time())
 
+      send(adapter.owner_pid, @already_sent)
       {:ok, nil, %{adapter | transport: socket, metrics: metrics}}
     else
       raise "Cannot read #{length} bytes starting at #{offset} as #{path} is only #{size} octets in length"
@@ -158,6 +161,7 @@ defmodule Bandit.Adapter do
 
     {headers, compression_context} = Bandit.Compression.new(adapter, status, headers, false, true)
     adapter = %{adapter | metrics: metrics, compression_context: compression_context}
+    send(adapter.owner_pid, @already_sent)
     {:ok, nil, send_headers(adapter, status, headers, :chunk_encoded)}
   end
 
@@ -258,11 +262,16 @@ defmodule Bandit.Adapter do
   def push(_adapter, _path, _headers), do: {:error, :not_supported}
 
   @impl Plug.Conn.Adapter
-  def get_peer_data(%__MODULE__{} = adapter) do
-    adapter.transport
-    |> Bandit.HTTPTransport.transport_info()
-    |> Bandit.TransportInfo.peer_data()
-  end
+  def get_peer_data(%__MODULE__{} = adapter),
+    do: Bandit.HTTPTransport.peer_data(adapter.transport)
+
+  @impl Plug.Conn.Adapter
+  def get_sock_data(%__MODULE__{} = adapter),
+    do: Bandit.HTTPTransport.sock_data(adapter.transport)
+
+  @impl Plug.Conn.Adapter
+  def get_ssl_data(%__MODULE__{} = adapter),
+    do: Bandit.HTTPTransport.ssl_data(adapter.transport)
 
   @impl Plug.Conn.Adapter
   def get_http_protocol(%__MODULE__{} = adapter),

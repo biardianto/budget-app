@@ -1,5 +1,5 @@
 {application,phoenix_html,
-             [{config_mtime,1751956421},
+             [{config_mtime,1762748862},
               {optional_applications,[]},
               {applications,[kernel,stdlib,elixir,eex,logger]},
               {description,"Phoenix view functions for working with HTML templates"},
@@ -13,6 +13,7 @@
                         'Elixir.Phoenix.HTML.Safe.BitString',
                         'Elixir.Phoenix.HTML.Safe.Date',
                         'Elixir.Phoenix.HTML.Safe.DateTime',
+                        'Elixir.Phoenix.HTML.Safe.Duration',
                         'Elixir.Phoenix.HTML.Safe.Float',
                         'Elixir.Phoenix.HTML.Safe.Integer',
                         'Elixir.Phoenix.HTML.Safe.List',
@@ -21,4 +22,4 @@
                         'Elixir.Phoenix.HTML.Safe.Tuple',
                         'Elixir.Phoenix.HTML.Safe.URI']},
               {registered,[]},
-              {vsn,"4.2.0"}]}.
+              {vsn,"4.3.0"}]}.

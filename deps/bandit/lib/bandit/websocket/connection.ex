@@ -123,8 +123,8 @@ defmodule Bandit.WebSocket.Connection do
             _code -> 1002
           end
 
-        _ = do_stop(reply_code, :remote, socket, connection)
-        {:close, %{connection | state: :closed}}
+        {:continue, connection} = do_stop(reply_code, :remote, socket, connection)
+        {:close, %{connection | state: :closed, compress: nil}}
 
       %Frame.Ping{} = frame ->
         connection =
@@ -234,12 +234,12 @@ defmodule Bandit.WebSocket.Connection do
         connection.websock.terminate(reason, connection.websock_state)
       end
 
-      if connection.compress, do: PerMessageDeflate.close(connection.compress)
       _ = Socket.close(socket, code)
+      if connection.compress, do: PerMessageDeflate.close(connection.compress)
       Bandit.Telemetry.stop_span(connection.span, connection.metrics)
     end
 
-    {:continue, %{connection | state: :closing}}
+    {:continue, %{connection | state: :closing, compress: nil}}
   end
 
   defp do_error(code, reason, socket, connection) do
@@ -248,12 +248,12 @@ defmodule Bandit.WebSocket.Connection do
         connection.websock.terminate(maybe_wrap_reason(reason), connection.websock_state)
       end
 
-      if connection.compress, do: PerMessageDeflate.close(connection.compress)
       _ = Socket.close(socket, code)
+      if connection.compress, do: PerMessageDeflate.close(connection.compress)
       Bandit.Telemetry.stop_span(connection.span, connection.metrics, %{error: reason})
     end
 
-    {:error, reason, %{connection | state: :closed}}
+    {:error, reason, %{connection | state: :closed, compress: nil}}
   end
 
   defp maybe_wrap_reason(:timeout), do: :timeout

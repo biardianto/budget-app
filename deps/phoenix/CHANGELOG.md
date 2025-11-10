@@ -46,7 +46,26 @@ styled with Tailwind CSS by default. You can opt-out of Tailwind CSS with the `-
 flag (the Tailwind CSS classes are kept in the generated components as reference for
 future styling).
 
-## 1.7.19 (2024-01-31)
+## 1.7.21 (2025-03-27)
+
+### Bug fixes
+  * Fix socket sometimes not reconnecting after pagehide/pageshow ([#6103](https://github.com/phoenixframework/phoenix/issues/6103))
+  * Check if priv folder exists before re-linking in CodeReloader ([#6124](https://github.com/phoenixframework/phoenix/pull/6124))
+
+### Enhancements
+  * Relax LiveView dependency for new projects
+
+## 1.7.20 (2025-02-20)
+
+### Enhancements
+  * Add `[:phoenix, :socket_drain]` telemetry event to track socket draining and use it for logging
+  * Address Elixir 1.18 warnings in phx.new
+  * Add `PHX_NEW_CACHE_DIR` env var for cached `phx.new` builds
+
+### Bug fixes
+  * Fix code reloader error when `mix.lock` is touched without its content changing
+
+## 1.7.19 (2025-01-31)
 
 ### Enhancements
   * [phx.new] - bind to `0.0.0.0` in `dev.exs` if phx.new is being run inside a docker container.

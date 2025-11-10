@@ -1,3 +1,58 @@
+## 1.8.0 (18 Aug 2025)
+
+### Enhancements
+
+* If the user has set a `content-length` header when calling `send_chunked/3`,
+the response is streamed via content-length delimited framing and not chunked (#510)
+
+## 1.7.0 (29 May 2025)
+
+### Enhancements
+
+* Add support for new `get_sock_data/1` and `get_ssl_data/1` callbacks from Plug 1.18 (#497)
+* Honour server-sent `Connection: close` headers (#495, thanks @ruslandoga!)
+
+### Fixes
+
+* Don't overwrite non-default HTTP/2 settings when receiving HTTP/2 settings (#494, thanks @ns-blee!)
+* Fix handling of early-connection error handling in HTTP/2 (#486)
+
+## 1.6.11 (31 Mar 2025)
+
+### Changes
+
+* Ensure that HTTP/1 request headers are sent to the Plug in the order they're
+sent (#482)
+* Do not populate the `cookies` header with an empty string if no cookies were
+sent in HTTP/2 (#483)
+
+## 1.6.10 (25 Mar 2025)
+
+### Fixes
+
+* Fix bug introduced when closing compressed websock connections in certain circumstances (#478)
+
+### Enhancements
+
+* Standardize & document the format of messages sent to HTTP/2 Stream processes (#481)
+
+## 1.6.9 (21 Mar 2025)
+
+### Fixes
+
+* Do not close compression context before calling websock close callback (#462,
+  thanks @thiagopromano!)
+
+## 1.6.8 (5 Mar 2025)
+
+### Fixes
+
+* Do not send stream WINDOW_UPDATEs on the last data frame of a stream
+
+### Enhancements
+
+* Add `status` to the telemetry metadata emitted on WebSocket upgrades (#466)
+
 ## 1.6.7 (30 Jan 2025)
 
 ### Changes
