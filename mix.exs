@@ -47,6 +47,8 @@ defmodule Budgie.MixProject do
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 1.0.0"},
+      {:phoenix_pubsub_redis, "~> 3.0.1"},
+      {:redix, "~> 1.5.2"},
       {:floki, ">= 0.30.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.8.3"},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -68,9 +70,7 @@ defmodule Budgie.MixProject do
       {:bandit, "~> 1.5"},
       {:ex_machina, "~> 2.8.0", only: :test},
       {:excoveralls, "~> 0.18", only: :test},
-      {:nanoid, "~> 2.1.0"},
-      {:phoenix_pubsub_redis, "~> 3.0.1"},
-      {:redix, "~> 1.5.0"}
+      {:nanoid, "~> 2.1.0"}
     ]
   end
 
