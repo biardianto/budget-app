@@ -29,10 +29,6 @@ config :budgie, BudgieWeb.Endpoint,
     tailwind: {Tailwind, :install_and_run, [:budgie, ~w(--watch)]}
   ]
 
-config :budgie, BudgieWeb.PubSub,
-  adapter: Phoenix.PubSub.Redis,
-  url: "redis://myredis:6379/0" # Adjust URL if Redis is on a different host/port
-
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

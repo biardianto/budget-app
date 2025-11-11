@@ -12,7 +12,8 @@ defmodule Budgie.Application do
       Budgie.Repo,
       {DNSCluster, query: Application.get_env(:budgie, :dns_cluster_query) || :ignore},
       # {Phoenix.PubSub, name: Budgie.PubSub},
-      {Phoenix.PubSub, name: Budgie.PubSub, adapter: Phoenix.PubSub.Redis},
+      {Phoenix.PubSub, name: Budgie.PubSub,
+       adapter: Phoenix.PubSub.Redis, host: "localhost", node_name: "Budgie"},
       # Add this line
       Budgie.Presence,
       # Start the Finch HTTP client for sending emails
