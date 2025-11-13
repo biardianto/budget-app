@@ -26,6 +26,17 @@ defmodule BudgieWeb.UserSocket do
   # performing token verification on connect.
   @impl true
   def connect(_params, socket, _connect_info) do
+    # dbg(connect_info)
+    # case Phoenix.Token.verify(socket, "user socket", connect_info[:auth_token],
+    #        max_age: 1209600
+    #      ) do
+    #   {:ok, user_id} ->
+    #     {:ok, assign(socket, :current_user, user_id)}
+
+    #   {:error, reason} ->
+    #     :error
+    # end
+
     {:ok, socket}
   end
 

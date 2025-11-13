@@ -17,7 +17,8 @@ defmodule BudgieWeb.Endpoint do
 
   socket "/socket", BudgieWeb.UserSocket,
       websocket: true,
-      longpoll: false
+      longpoll: false,
+      auth_token: true
 
   # Serve at "/" the static files from "priv/static" directory.
   #
