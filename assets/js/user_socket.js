@@ -6,9 +6,10 @@ import { Socket } from "phoenix"
 
 // And connect to the path in "lib/budgie_web/endpoint.ex". We pass the
 // token for authentication. Read below how it should be used.
-let socket = new Socket("/socket", { params: { authToken: window.userToken } })
-// let socket = new Socket("/socket", {authToken: window.userToken})
-
+// let socket = new Socket("/socket", { params: { authToken: window.userToken } })
+let socket = new Socket("/socket", {authToken: window.userToken})
+// console.log("usertoken "+window.userToken)
+// console.log(socket)
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
 // which authenticates the session and assigns a `:current_user`.
@@ -61,14 +62,21 @@ let channel = socket.channel("room:lobby", {})
 let chatInput = document.querySelector("#chat-input")
 let messagesContainer = document.querySelector("#messages")
 
+
 if (chatInput) {
-  channel.on("new_msg", payload => {
-    console.log("New message received:", payload.body)
-    let messageItem = document.createElement("p")
-    messageItem.innerText = `[${Date()}] ${payload.body}`
-    messagesContainer.appendChild(messageItem)
+  chatInput.addEventListener("keypress", event => {
+    if (event.key === "Enter") {
+      channel.push("new_msg", { body: chatInput.value })
+      chatInput.value = ""
+    }
   })
 }
+channel.on("new_msg", payload => {
+  console.log("New message received:", payload.body)
+  let messageItem = document.createElement("p")
+  messageItem.innerText = `[${Date()}] ${payload.body}`
+  messagesContainer.appendChild(messageItem)
+})
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
